@@ -61,6 +61,7 @@ const App = () => {
   return <Switch>
     <Route path='/'>
       <h1>The Great Linkerator</h1>
+      <h3>The ONLY solution for indexing URLs</h3>
       <SearchBar 
         search={search}
         setSearch={setSearch}
