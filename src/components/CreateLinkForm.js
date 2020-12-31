@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import  fetchAPI  from "../api";
+import fetchAPI  from "../api";
+import Button from '@material-ui/core/Button';
 
 const BASE_URL= "http://localhost:3001/api";
 
@@ -9,10 +10,12 @@ const CreateLinkForm = (props) => {
 
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
+  const [tags, setTags] = useState([]);
 
   function clearForm() {
     setLink("");
     setComment("");
+    setTags([]);
   }
 
   return (
@@ -26,14 +29,14 @@ const CreateLinkForm = (props) => {
         const newLinkData = {
           link: link,
           comment: comment,
-          clickCount: 1
+          clickCount: 1, 
+          tags: tags,
         }
 
         try {
           const newLink = await fetchAPI(`${BASE_URL}/links`, "POST", newLinkData);
 
           addNewLink(newLink);
-          setLinkList(...linkList, newLink);
           clearForm();
 
         } catch(error) {
@@ -46,8 +49,8 @@ const CreateLinkForm = (props) => {
       <input type="text" value={link} onChange={(event) => setLink(event.target.value)}></input>
       <label>Comment</label>
       <input type="text" value={comment} onChange={(event) => setComment(event.target.value)}></input>
-      <button>Submit</button>
-      <button onClick={() => {clearForm(); history.pushState("/")}}>Cancel</button>
+      <button variant="contained" color="primary">Submit</button>
+      <button variant="contained" onClick={() => {clearForm(); history.pushState("/")}}>Cancel</button>
     </form> 
     </div>
   )
