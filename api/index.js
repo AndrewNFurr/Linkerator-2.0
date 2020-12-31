@@ -59,6 +59,7 @@ apiRouter.get('/tags', async (req, res, next) => {
   })
 
   apiRouter.post("/links", async (req, res, next) => {
+    console.log("The req is", req)
     try {
       const newLink = await createLink(req.body);
   

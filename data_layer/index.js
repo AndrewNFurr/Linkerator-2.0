@@ -171,8 +171,6 @@ async function getLinksByTagName(tagName) {
   }
 }
 
-
-
 async function updateLink(linkId, fields = {}) {
   //this needs to be written to update the tags too if we get that far
   const setString = Object.keys(fields).map(
@@ -195,7 +193,6 @@ async function updateLink(linkId, fields = {}) {
     throw error
   }
 }
-
 
 module.exports = {
   sync,
