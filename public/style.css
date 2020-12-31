@@ -9,5 +9,103 @@
   height: 100%;
   font-family: sans-serif;
   width: 100vw;
-  text-align: center;
 }
+
+.newLinkForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-content: center;
+  align-content: center;
+  grid-gap: 10px;
+}
+
+.newLinkForm h3 {
+  grid-row: 1;
+  grid-column: 2 / 3;
+  justify-self: center;
+  align-self: center;
+  padding-top: 2em;
+}
+
+.urlName {
+  grid-row: 2;
+  grid-column: 2;
+  font-weight: bold;
+}
+
+.urlPrefix {
+  grid-row: 3;
+  grid-column: 1;
+  margin-bottom: 1em;
+  justify-self: end;
+  align-self: center;
+  padding: 7px;
+}
+
+.linkName {
+  grid-row: 3;
+  grid-column: 2;
+  border: 1px solid green;
+  margin-bottom: 1em;
+  padding: 7px 11px;
+}
+
+.urlSuffix {
+  grid-row: 3;
+  grid-column: 3;
+  padding: 7px;
+}
+
+.commentLabel {
+  grid-row: 4;
+  grid-column: 2;
+  font-weight: bold;
+}
+
+.commentBox {
+  grid-row: 5;
+  grid-column: 2 / 3;
+  padding: calc(.75em - 1px);
+  margin-bottom: 1em;
+  border: 1px solid green;
+}
+
+.tagsLabel {
+  grid-row: 6;
+  grid-column: 2;
+  font-weight: bold;
+}
+
+.tags {
+  grid-row: 7;
+  grid-column: 2 / 3;
+  padding: 1em;
+  margin-bottom: 1em;
+  border: 1px solid green;
+}
+
+.buttonGroup {
+  grid-row: 8;
+  grid-column: 2;
+  max-width: 1.5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.submit {
+  max-width: 1em;
+  grid-row: 1;
+  grid-column: 1;
+  }
+
+
+.cancel {
+  grid-row: 1;
+  grid-column: 2;
+  max-width: 1.5em;
+}
+
+
+
+
+
