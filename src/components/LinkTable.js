@@ -10,17 +10,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
 const LinkTable = (props) => {
-  const {} = props;
+  const {linkList} = props;
 
-  function createData(url, clickCount, comment, createDate) {
-    return { url, clickCount, comment, createDate };
-  }
-
-  const rows = [
-    createData('google.com', 0, 'all the answers!', '2020-23-12'),
-    createData('fullstackacademy.com', 0, 'school!', '2020-23-12'),
-    createData('espn.com', 0, 'stories and scores!', '2020-30-12'),
-  ];
 
   const tableStyling = {
     width: '75vw',
@@ -54,14 +45,15 @@ const LinkTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => {
+          {linkList.map((_link) => {
             return (
-              <TableRow key={row.name}>
+              <TableRow key={_link.id}>
                 <Link
-                  url={row.url}
-                  clickCount={row.clickCount}
-                  comment={row.comment}
-                  createDate={row.createDate}
+                  url={_link.link}
+                  clickCount={_link.clickcount}
+                  comment={_link.comment}
+                  createDate={_link.dateCreated}
+                  tags={_link.tags}
                 />
               </TableRow>
             );

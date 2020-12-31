@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 const Link = (props) => {
   const [countClicker, setCountClicker] = useState(0);
-  const { url, clickCount, comment, createDate } = props;
+  const { url, clickCount, comment, createDate, tags } = props;
 
   const increaseCountClicker = () => {
     setCountClicker(countClicker + 1);
@@ -22,7 +22,9 @@ const Link = (props) => {
         {countClicker}
       </TableCell>
       <TableCell>{comment}</TableCell>
-      <TableCell>tags go here.</TableCell>
+      <TableCell>{tags.map((tag) => {
+        return <p>{tag.tag}</p>
+      })}</TableCell>
       <TableCell>{createDate}</TableCell>
       {/* <TableCell>
         <IconButton>
