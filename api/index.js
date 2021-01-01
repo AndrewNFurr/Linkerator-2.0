@@ -59,15 +59,17 @@ apiRouter.get('/tags', async (req, res, next) => {
   })
 
   apiRouter.post("/links", async (req, res, next) => {
+    console.log("The req is", req.body)
+    const { link, comment, clickcount, tags=getAllTags } = req.body
     try {
+      console.log(link, comment, clickcount, tags);
       const newLink = await createLink(req.body);
-  
       res.send(newLink);
-      next();
     } catch(error) {
       next(error);
     }
   })
+  
 
   apiRouter.patch("/links/:id", async (req, res, next) => {
     const { linkId } = req.params; 

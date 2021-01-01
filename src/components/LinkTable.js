@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Link from './Link';
+import _Link from './_Link';
 
 // Material-UI Imports:
 import TableContainer from '@material-ui/core/TableContainer';
@@ -48,7 +48,7 @@ const LinkTable = (props) => {
           {linkList.map((_link) => {
             return (
               <TableRow key={_link.id}>
-                <Link
+                <_Link
                   url={_link.link}
                   clickCount={_link.clickcount}
                   comment={_link.comment}

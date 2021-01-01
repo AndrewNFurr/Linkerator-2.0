@@ -3,7 +3,9 @@ require('dotenv').config();
 const {client, getAllLinks, createLink, createInitialLink} = require('./data_layer');
 
 const express = require("express");
-const path = require("path");
+const path = require("path")
+const bodyParser = require('body-parser');
+
 
 const { sync } = require("./data_layer/index");
 const { nextTick } = require('process');
@@ -15,6 +17,7 @@ const FORCE = process.env.FORCE || false;
 const app = express();
 
 app.use(express.static(path.join(__dirname, "build")));
+app.use(bodyParser.json());
 
 // make a route for each front end page
 // each time you add a front end route using react router, it needs to be added to this array

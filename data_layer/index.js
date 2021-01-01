@@ -1,17 +1,17 @@
 const client = require("./client");
 const sync = require("./sync");
 
-async function createLink({newLink, comment, clickCount, tags=[]}) {
+async function createLink({link, comment, clickCount, tags=[]}) {
   try {
-    const { rows: [ link ] } = await client.query(`
+    const { rows: [ link_ ] } = await client.query(`
       INSERT INTO links(link, comment, clickCount)
       VALUES($1, $2, $3)
       RETURNING *;
-    `, [newLink, comment, clickCount]);
+    `, [link, comment, clickCount]);
 
     const tagList = await createTags(tags);
   
-    const _link =  await addTagsToLink(link.id, tagList);
+    const _link = await addTagsToLink(link_.id, tagList);
     
     return _link
   } catch (error) {
@@ -171,8 +171,6 @@ async function getLinksByTagName(tagName) {
   }
 }
 
-
-
 async function updateLink(linkId, fields = {}) {
   //this needs to be written to update the tags too if we get that far
   const setString = Object.keys(fields).map(
@@ -195,7 +193,6 @@ async function updateLink(linkId, fields = {}) {
     throw error
   }
 }
-
 
 module.exports = {
   sync,
