@@ -16,7 +16,7 @@ const Link = (props) => {
   return (
     <>
       <TableCell component="th" scope="row" onClick={increaseCountClicker}>
-        {url}
+        <a href={url}>{url}</a>
       </TableCell>
       <TableCell value={countClicker} onChange={increaseCountClicker}>
         {countClicker}
