@@ -34,6 +34,7 @@ const CreateLinkForm = (props) => {
           console.log(newLink)
           addNewLink(newLink);
           clearForm();
+          history.push("/");
         }).catch(console.error);
     } catch(error) {
       throw error;

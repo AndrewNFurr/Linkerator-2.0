@@ -11,6 +11,7 @@ import {
   CreateLinkForm 
 } from './components';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 const App = () => {
   const [linkList, setLinkList] = useState([]);
@@ -47,35 +48,36 @@ const App = () => {
       return _link.link.includes(search.toLowerCase());
     });
   }
-  // return <>
-  // <h1>The Great Linkerator</h1>
-  // <Switch>
-  //   <Route path="/searchBar" render={()=> <SearchBar />} />
-  //   <Route path="/createLink" render={()=><CreateLinkForm linkList={linkList} setLinkList={setLinkList} addNewLink={addNewLink} history={history}/>}/>
-  //   <Redirect from="*" to="/"  />
-  // </Switch>
 
-  // </>
-
-  return <Switch>
-    <Route exact path="/CreateLink">
-      <CreateLinkForm addNewLink={addNewLink} history={history}/>
-    </Route>
-    <Route path='/'>
+  return ( <>
+    <header>
       <h1>The Great Linkerator</h1>
       <h3>The ONLY solution for indexing URLs</h3>
-      <SearchBar 
-        search={search}
-        setSearch={setSearch}
-        setSearchOption={setSearchOption}
-        searchOption={searchOption}/>
-      <Button variant="contained" color="primary"><Link to="/CreateLink">Create Link</Link></Button>
-      <LinkTable
-        linkList={filteredLinks()}
-        setSearch={setSearch}/>
-    </Route>
-    
-  </Switch>
+    </header>
+    <Switch>
+      <Route exact path="/CreateLink">
+        <CreateLinkForm addNewLink={addNewLink} history={history}/>
+      </Route>
+      <Route path='/'>
+        <SearchBar 
+          search={search}
+          setSearch={setSearch}
+          setSearchOption={setSearchOption}
+          searchOption={searchOption}/>
+        <Grid container justify='center'>
+          <Button 
+            className="createLink" 
+            variant="contained" 
+            color="primary">
+            <Link to="/CreateLink" className='createLink'>Create Link</Link>
+          </Button>
+        </Grid>
+        <LinkTable
+          linkList={filteredLinks()}
+          setSearch={setSearch}/>
+      </Route>
+    </Switch>
+  </>)
 };
 
 
