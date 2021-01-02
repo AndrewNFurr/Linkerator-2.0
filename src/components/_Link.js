@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Moment from 'react-moment';
 
 // Material U-I imports:
 import TableCell from '@material-ui/core/TableCell';
@@ -13,10 +14,12 @@ const Link = (props) => {
     setCountClicker(countClicker + 1);
   };
 
+  const dateToFormat = createDate;
+
   return (
     <>
       <TableCell component="th" scope="row" onClick={increaseCountClicker}>
-        <a href={url}>{url}</a>
+        <a href={url} target="_blank">{url}</a>
       </TableCell>
       <TableCell value={countClicker} onChange={increaseCountClicker}>
         {countClicker}
@@ -25,7 +28,7 @@ const Link = (props) => {
       <TableCell>{tags.map((tag) => {
         return <p>{tag.tag}</p>
       })}</TableCell>
-      <TableCell>{createDate}</TableCell>
+      <TableCell><Moment format='MM/DD/YYYY'>{dateToFormat}</Moment></TableCell>
       {/* <TableCell>
         <IconButton>
           <DeleteIcon />
