@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 
 const LinkTable = (props) => {
-  const {linkList} = props;
+  const {linkList, setLinkList} = props;
 
 
   const tableStyling = {
@@ -49,11 +49,14 @@ const LinkTable = (props) => {
             return (
               <TableRow key={_link.id}>
                 <_Link
-                  url={_link.link}
+                  id={_link.id}
+                  link={_link.link}
                   clickCount={_link.clickcount}
                   comment={_link.comment}
                   createDate={_link.dateCreated}
                   tags={_link.tags}
+                  linkList={linkList}
+                  setLinkList={setLinkList}
                 />
               </TableRow>
             );

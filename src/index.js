@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, useHistory, Switch, Link, Redirect } fr
 import fetchAPI from './api';
 import {
   SearchBar,
-  Links,
   LinkTable,
   _Link,
   CreateLinkForm 
@@ -43,19 +42,21 @@ const App = () => {
 }, [])
  
   function filteredLinks() {
+    if (searchOption === 'Tags') {
+      return linkList.filter((_link) => {
+        let tags = _link.tags.map((tag) => {
+          return tag.tag;
+        })
+        if (tags.join(', ').includes(search)) {
+          return _link;
+        }
+      })
+    }
     return linkList.filter((_link) => {
       return _link.link.includes(search.toLowerCase());
     });
   }
-  // return <>
-  // <h1>The Great Linkerator</h1>
-  // <Switch>
-  //   <Route path="/searchBar" render={()=> <SearchBar />} />
-  //   <Route path="/createLink" render={()=><CreateLinkForm linkList={linkList} setLinkList={setLinkList} addNewLink={addNewLink} history={history}/>}/>
-  //   <Redirect from="*" to="/"  />
-  // </Switch>
-
-  // </>
+  
 
   return <Switch>
     <Route exact path="/CreateLink">
@@ -72,7 +73,8 @@ const App = () => {
       <Button variant="contained" color="primary"><Link to="/CreateLink">Create Link</Link></Button>
       <LinkTable
         linkList={filteredLinks()}
-        setSearch={setSearch}/>
+        setSearch={setSearch}
+        setLinkList={setLinkList}/>
     </Route>
     
   </Switch>
