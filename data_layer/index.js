@@ -207,6 +207,7 @@ async function updateLink(linkId, fields = {}) {
     }
 
     const tagList = await createTags(tags);
+    console.log("The taglist is", tagList);
     const tagListIdString = tagList.map(
       tag => `${ tag }`
     ).join(', ');
