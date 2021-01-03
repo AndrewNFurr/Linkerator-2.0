@@ -6,7 +6,7 @@ const { exec } = require("child_process");
 
 fs.watch(
   "./src",
-  // "./public",
+  //"./public",
   {
     recursive: true,
   },
