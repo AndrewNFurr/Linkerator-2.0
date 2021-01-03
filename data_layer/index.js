@@ -1,3 +1,4 @@
+//const {delete} = require("../api");
 const client = require("./client");
 const sync = require("./sync");
 
@@ -111,7 +112,8 @@ async function getAllLinks() {
 }
 
 async function getLinkById(linkId) {
-  //if we introduce tags, then we'll need to also pull those over so they can be updated
+  console.log("Inside the getLinkByID function")
+
   try {
     const {rows: [link] } = await client.query(`
       SELECT *
@@ -124,6 +126,7 @@ async function getLinkById(linkId) {
         message: "Could not find a link with that name"
       }
     }
+
     const { rows: tags } = await client.query(`
         SELECT tags.*
         FROM tags
@@ -133,6 +136,7 @@ async function getLinkById(linkId) {
 
     link.tags = tags;
     link.dateCreated = new Date();
+    
     return link;
 
   } catch(error) {
@@ -172,21 +176,51 @@ async function getLinksByTagName(tagName) {
 }
 
 async function updateLink(linkId, fields = {}) {
-  //this needs to be written to update the tags too if we get that far
+  console.log("Beginning updateLink")
+
+  const { tags } = fields; //might be undefined
+  delete fields.tags;
+
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1 }`
   ).join(', ');
   
+  const lastIndex = Object.keys(fields).length + 1;
+
+  console.log("The setString is:", setString);
+
   try {
     if(setString.length > 0) {
+      console.log("Inside the try for updateLink")
       await client.query(`
       UPDATE links
       SET ${ setString }
-      WHERE id=${ linkId }
+      WHERE id=$${ lastIndex }
       RETURNING *;
-      `, Object.values(fields));
+      `, [...Object.values(fields), linkId]);
     }
 
+    console.log("Made it through the setString")
+
+    if (tags === undefined) {
+      return await getLinkById(linkId);
+    }
+
+    const tagList = await createTags(tags);
+    const tagListIdString = tagList.map(
+      tag => `${ tag }`
+    ).join(', ');
+
+    await client.query(`
+      DELETE FROM link_tags
+      WHERE tag_id
+      NOT IN (${ tagListIdString })
+      AND link.id=$1;
+      `, [linkId]);
+
+    await addTagsToLink(linkId, tagList);
+
+    console.log("got through update, if crashing - look at getLinkById")
     return await getLinkById(linkId);
 
   } catch(error) {
