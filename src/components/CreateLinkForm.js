@@ -33,10 +33,10 @@ const CreateLinkForm = (props) => {
     }
 
     const updateData = {
-      id: activeLink.id, 
+      linkId: activeLink.id, 
       link: link,
       comment: comment,
-      tags: tags
+      tags: [tags]
     }
 
     console.log("The new link data is:" , updateData)
