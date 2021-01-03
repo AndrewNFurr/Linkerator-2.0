@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 async function fetchAPI(url, method="GET", sendData=null) {
     const fetchOptions = {
       method: method,
@@ -18,5 +20,13 @@ async function fetchAPI(url, method="GET", sendData=null) {
     console.log("result from fetch in api index file:", data);
     return data;
   }
+
+  export const increaseCountClicker = async (_id, currentCount) => {
+    const response = await axios.patch(`http://localhost:3001/api/links/${_id}`, {
+      clickCount: currentCount + 1,
+    });
+  
+    return response.status === 204;
+  };
   
   export default fetchAPI;

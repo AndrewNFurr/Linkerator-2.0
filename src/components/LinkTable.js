@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import _Link from './_Link';
+
 
 // Material-UI Imports:
 import TableContainer from '@material-ui/core/TableContainer';
@@ -8,15 +9,20 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
+import { Autorenew } from '@material-ui/icons';
 
 const LinkTable = (props) => {
-  const {linkList, setLinkList} = props;
+  const {linkList, updateClickCount, setSearch} = props;
+
+ 
 
 
   const tableStyling = {
     width: '75vw',
     justifyContent: 'center',
-    border: '1px solid black',
+    border: '1px solid green',
+    margin: 'auto',
+    marginTop: '1em'
   };
 
   return (
@@ -55,8 +61,8 @@ const LinkTable = (props) => {
                   comment={_link.comment}
                   createDate={_link.dateCreated}
                   tags={_link.tags}
-                  linkList={linkList}
-                  setLinkList={setLinkList}
+                  setSearch={setSearch}
+                  updateClickCount={updateClickCount}
                 />
               </TableRow>
             );

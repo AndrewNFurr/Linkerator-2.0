@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Moment from 'react-moment';
+
 
 // Material U-I imports:
 import TableCell from '@material-ui/core/TableCell';
@@ -8,45 +10,28 @@ import fetchAPI from '../api';
 
 const Link = (props) => {
   const [countClicker, setCountClicker] = useState(0);
-  const { id, link, clickCount, comment, createDate, tags, linkList, setLinkList } = props;
+  const { id, link, clickCount, comment, createDate, tags, updateClickCount, setSearch } = props;
 
-  const increaseCountClicker = async () => {
-    const newCount = clickCount + 1
-    const payload = {
-      link,
-      clickcount: newCount,
-      comment,
-      createDate,
-      tags
-    }
 
-    if (id) {
-    try {
-      await fetchAPI(`http://localhost:3001/api/links/${id}`, 'PATCH', payload)
-        .then((resp) => {
-          console.log(resp)
-          const newList = [...linkList];
-          setLinkList(newList);
-        })
-    } catch(error) {
-      console.log(error);
-    }
-  }
-  };
+  const dateToFormat = createDate;
 
   return (
     <>
-      <TableCell component="th" scope="row" onClick={increaseCountClicker}>
+      <TableCell component="th" scope="row" onClick={() => {
+        updateClickCount(id, clickCount)
+      }}>
         <a href={link} target="_blank">{link}</a>
       </TableCell>
-      <TableCell value={clickCount} onChange={increaseCountClicker}>
+      <TableCell value={clickCount} >
         {clickCount}
       </TableCell>
       <TableCell>{comment}</TableCell>
       <TableCell>{tags.map((tag) => {
-        return <p>{tag.tag}</p>
+        return <p onClick={() => {
+          setSearch(tag.tag);
+        }}>{tag.tag}</p>
       })}</TableCell>
-      <TableCell>{Date.parse(createDate)}</TableCell>
+      <TableCell><Moment format='MM/DD/YYYY'>{dateToFormat}</Moment></TableCell>
       {/* <TableCell>
         <IconButton>
           <DeleteIcon />

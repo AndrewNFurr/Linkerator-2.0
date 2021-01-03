@@ -19,22 +19,19 @@ const SearchBar = ({
             onChange={(event) => {
             setSearch(event.target.value);
             }} />
-        </div>
-    <div>
-        <select
+          <select
             className='search-select'
             value={searchOption}
             onChange={(event) =>  {
-                setSearchOption(event.target.value)
-            }
-            }>    
+              setSearchOption(event.target.value)
+            }}>    
             [
-                <option value="Links">Links</option>
-                <option value="Tags">Tags</option>
+              <option value="Links">Links</option>
+              <option value="Tags">Tags</option>
             ]
-        </select>
+          </select>
+      </div>
     </div>
-  </div>
 }
 
 export default SearchBar;

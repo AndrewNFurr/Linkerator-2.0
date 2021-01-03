@@ -72,9 +72,9 @@ apiRouter.get('/tags', async (req, res, next) => {
   
 
   apiRouter.patch("/links/:id", async (req, res, next) => {
-    const { linkId } = req.params; 
-    const { link, comment, clickcount, tags} = req.body;
-    console.log(req.body, req.params)
+    const { id } = req.params; 
+    const { link, comment, clickCount, tags} = req.body;
+    console.log(req.body.clickCount, req.params.id)
 
     const updateFields = {};
 
@@ -86,20 +86,22 @@ apiRouter.get('/tags', async (req, res, next) => {
         updateFields.comment = comment;
     }
 
-    if(clickcount) {
-        updateFields.clickcount = clickcount;
+    if(clickCount) {
+        updateFields.clickCount = clickCount;
     }
 
     if(tags) {
       updateFields.tags = tags;
   }
-  console.log(updateFields)
+  
 
     try {
-        const originalLink = getLinkById(linkId);
+        const originalLink = await getLinkById(id);
+        console.log(originalLink, originalLink.id, id)
 
-        if(originalLink.id === linkId) {
-            const updatedLink = await updateLink(linkId, updateFields);
+        if(originalLink.id === id) {
+            const updatedLink = await updateLink(id, updateFields);
+            console.log(updatedLink);
             res.send({link: updatedLink })
         } else {
             next({

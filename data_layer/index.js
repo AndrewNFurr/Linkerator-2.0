@@ -112,6 +112,7 @@ async function getAllLinks() {
 
 async function getLinkById(linkId) {
   //if we introduce tags, then we'll need to also pull those over so they can be updated
+  
   try {
     const {rows: [link] } = await client.query(`
       SELECT *
@@ -176,7 +177,12 @@ async function updateLink(linkId, fields = {}) {
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1 }`
   ).join(', ');
-  
+  // console.log(`
+  // UPDATE links
+  // SET ${ setString }
+  // WHERE id=${ linkId }
+  // RETURNING *;
+  // `)
   try {
     if(setString.length > 0) {
       await client.query(`
