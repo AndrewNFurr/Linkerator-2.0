@@ -209,16 +209,16 @@ async function updateLink(linkId, fields = {}) {
   
     console.log("The taglist is", tagList);
     const tagListIdString = tagList.map(
-      tag => `${ tag.tag }`
+      tag => `${ tag.id }`
     ).join(', ');
-
+    console.log(tagListIdString)
     await client.query(`
       DELETE FROM link_tags
       WHERE tag_id
-      NOT IN (${ tagListIdString })
+      NOT IN (${tagListIdString})
       AND link_id=$1;
       `, [linkId]);
-
+    
     await addTagsToLink(linkId, tagList);
 
     console.log("got through update, if crashing - look at getLinkById")
