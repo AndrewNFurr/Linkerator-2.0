@@ -2,6 +2,7 @@ import axios from 'axios';
 
 async function fetchAPI(url, method="GET", sendData=null) {
     const fetchOptions = {
+      mode: "no-cors",
       method: method,
       headers: {
         'Content-Type': 'application/json',
