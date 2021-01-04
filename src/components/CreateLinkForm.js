@@ -19,11 +19,15 @@ const CreateLinkForm = (props) => {
   }
 
   useEffect(()=> {
+    let activeTags = []
+    if (activeLink.id) {
+      activeTags = activeLink.tags.map((tag) => {
+      return tag.tag
+    })
+  }
     setLink(activeLink.link || "");
     setComment(activeLink.comment || "");
-    setTags(activeLink.tags.map((tag) => {
-      return tag.tag
-    }) || "");
+    setTags(activeTags || "");
     console.log(activeLink)
   }, [activeLink]);
 
@@ -62,7 +66,7 @@ const CreateLinkForm = (props) => {
       try {
         console.log("inside the 'update' try")
         let result = await fetchAPI(`${BASE_URL}/links/${activeLink.id}`, "PATCH", updateData);
-        console.log("the result from the update is:", result)
+        console.log("the result from the update is:", result, result.tags)
         let updatedList = linkList.slice();
         console.log(updatedList);
         const index = linkList.findIndex((link) => {
@@ -71,6 +75,7 @@ const CreateLinkForm = (props) => {
         updatedList.splice(index, 1, result.link);
         setLinkList(updatedList);
         history.push("/");
+        clearForm();
         setActiveLink({});
       } catch(error) {
         throw error;
