@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import fetchAPI  from "../api";
 import Button from '@material-ui/core/Button';
 
@@ -6,7 +6,7 @@ const BASE_URL= "http://localhost:3001/api";
 
 const CreateLinkForm = (props) => {  
 
-  const {addNewLink, history } = props;
+  const {addNewLink, history, activeLink, setActiveLink, linkList, setLinkList } = props;
 
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
@@ -18,35 +18,72 @@ const CreateLinkForm = (props) => {
     setTags([]);
   }
 
+  useEffect(()=> {
+    setLink(activeLink.link || "");
+    setComment(activeLink.comment || "");
+    setTags(activeLink.tags.map((tag) => {
+      return tag.tag
+    }) || "");
+    console.log(activeLink)
+  }, [activeLink]);
+
   const handleSubmit = async () => {
     const sendData = {
-      link: `https://www.${link}.com`,
+      link: `http://www.${link}.com`,
       comment: comment,
       clickCount: 1, 
       tags: tags.split(',')
     }
 
-    console.log("The new link data is:" , sendData)
+    const updateData = {
+      linkId: activeLink.id, 
+      link: link,
+      clickcount: activeLink.clickcount,
+      comment: comment,
+      tags: tags.split(',')
+    }
+
+    console.log("The new link data is:" , updateData)
     
-    try {
-      await fetchAPI(`${BASE_URL}/links`, "POST", sendData)
-        .then((newLink) => {
-          console.log(newLink)
-          addNewLink(newLink);
-          clearForm();
-          history.push("/");
-        }).catch(console.error);
-    } catch(error) {
-      throw error;
+    if (!activeLink.id) {
+      try {
+        console.log("inside the 'new' try, not the 'update' try")
+        await fetchAPI(`${BASE_URL}/links`, "POST", sendData)
+          .then((newLink) => {
+           console.log(newLink)
+           addNewLink(newLink);
+            clearForm();
+            history.push("/");
+          }).catch(console.error);
+      } catch(error) {
+        throw error;
+      }
+    } else {
+      try {
+        console.log("inside the 'update' try")
+        let result = await fetchAPI(`${BASE_URL}/links/${activeLink.id}`, "PATCH", updateData);
+        console.log("the result from the update is:", result)
+        let updatedList = linkList.slice();
+        console.log(updatedList);
+        const index = linkList.findIndex((link) => {
+          return link.id = activeLink.id
+        })
+        updatedList.splice(index, 1, result.link);
+        setLinkList(updatedList);
+        history.push("/");
+        setActiveLink({});
+      } catch(error) {
+        throw error;
+      }
     }
   }
 
   return (
     <div>
     <form className="newLinkForm">
-      <h3 className="linkComponent">Create a Link</h3>
+      {activeLink.id? (<h3 className="linkComponent">Update Link Info</h3>) : (<h3 className="linkComponent">Create a Link</h3>)}
       <label className="urlName">URL</label>
-      <p className="urlPrefix">https://www.</p><input type="text" className="linkName" value={link} onChange={(event) => setLink(event.target.value)}></input><p className="urlSuffix">.com</p>
+      <p className="urlPrefix">http://www.</p><input type="text" className="linkName" value={link} onChange={(event) => setLink(event.target.value)}></input><p className="urlSuffix">.com</p>
       <label className="commentLabel">Comment</label>
       <textarea type="text" className="commentBox" value={comment} onChange={(event) => setComment(event.target.value)}></textarea>
       <label className="tagsLabel">Tags</label>
@@ -60,7 +97,7 @@ const CreateLinkForm = (props) => {
         <Button 
           className="cancel" 
           variant="contained" 
-          onClick={() => {clearForm(); history.push("/")}}>Cancel</Button>
+          onClick={() => {clearForm(); setActiveLink({}); history.push("/")}}>Cancel</Button>
       </div>
     </form> 
     </div>

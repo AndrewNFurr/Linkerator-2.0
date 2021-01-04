@@ -33,6 +33,7 @@ header h3 {
 .search-bar {
   margin: auto;
   padding-bottom: .5em;
+  padding-top: 1em;
 }
 
 #search {
@@ -55,6 +56,24 @@ header h3 {
 }
 
 .search-select {
+  border: 1px solid green;
+  padding: 10px;
+  border-radius: 4px;
+  margin: auto;
+}
+
+.sortByClicks {
+  margin: auto;
+  padding: .25em;
+}
+
+.sortByClicks label {
+  padding: 10px;
+  margin-right: 4px;
+  margin-left: 8em;
+}
+
+.sort-select {
   border: 1px solid green;
   padding: 10px;
   border-radius: 4px;

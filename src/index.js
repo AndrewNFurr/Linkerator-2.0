@@ -17,6 +17,8 @@ const App = () => {
   const [tagList, setTagList] = useState([]);
   const [search, setSearch] = useState('');
   const [searchOption, setSearchOption] = useState('')
+  const [sortOption, setSortOption] = useState('');
+  const [activeLink, setActiveLink] = useState({});
 
   function addNewLink(newLink) {
     setLinkList([...linkList, newLink]);
@@ -27,8 +29,9 @@ const App = () => {
   useEffect(async () => {
     fetchAPI('http://localhost:3001/api/links')
       .then((resp) => {
-        console.log(resp)
-        setLinkList(resp);
+        console.log("The linklist is", resp)
+        let sortedList = resp.sort((a, b) => (a.clickcount > b.clickcount)? -1: 1);
+        setLinkList(sortedList);
       })
       .catch(console.error);
   }, []);
@@ -79,6 +82,8 @@ const updateClickCount = async (linkId, currentClickCount) => {
     });
   }
 
+  console.log("The activeLink is:", activeLink);
+  
   return ( <>
     <header>
       <h1>The Great Linkerator</h1>
@@ -86,15 +91,25 @@ const updateClickCount = async (linkId, currentClickCount) => {
     </header>
     <Switch>
       <Route exact path="/CreateLink">
-        <CreateLinkForm addNewLink={addNewLink} history={history}/>
+        <CreateLinkForm 
+          addNewLink={addNewLink} 
+          activeLink={activeLink}
+          setActiveLink={setActiveLink}
+          history={history}
+          linkList={linkList}
+          setLinkList={setLinkList}/>
       </Route>
       <Route path='/'>
         <SearchBar 
           search={search}
           setSearch={setSearch}
           setSearchOption={setSearchOption}
-          searchOption={searchOption}/>
-        <Grid container justify='center'>
+          searchOption={searchOption}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          linkList={linkList}
+          setLinkList={setLinkList}/>
+          <Grid container justify='center'>
           <Button 
             className="createLink" 
             variant="contained" 
@@ -106,8 +121,9 @@ const updateClickCount = async (linkId, currentClickCount) => {
           linkList={filteredLinks()}
           setSearch={setSearch}
           setLinkList={setLinkList}
-          updateClickCount={updateClickCount}
-          />
+          activeLink={activeLink}
+          setActiveLink={setActiveLink}
+          history={history}/>
       </Route>
     </Switch>
   </>)

@@ -15,7 +15,8 @@ const PORT = process.env.PORT || 3001;
 const FORCE = process.env.FORCE || false;
 
 const app = express();
-
+const volleyball = require("volleyball");
+app.use(volleyball);
 app.use(express.static(path.join(__dirname, "build")));
 app.use(bodyParser.json());
 

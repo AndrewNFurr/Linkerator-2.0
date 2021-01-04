@@ -12,9 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import { Autorenew } from '@material-ui/icons';
 
 const LinkTable = (props) => {
-  const {linkList, updateClickCount, setSearch} = props;
-
- 
+  const {linkList, setLinkList, activeLink, setActiveLink, history, setSearch} = props;
 
 
   const tableStyling = {
@@ -25,7 +23,7 @@ const LinkTable = (props) => {
     marginTop: '1em'
   };
 
-  return (
+   return (
     <TableContainer style={tableStyling}>
       <Table className="LinkList">
         <TableHead>
@@ -51,18 +49,24 @@ const LinkTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {linkList.map((_link) => {
+          {linkList.map((_link, index) => {
             return (
               <TableRow key={_link.id}>
                 <_Link
                   id={_link.id}
-                  link={_link.link}
+                  url={_link.link}
                   clickCount={_link.clickcount}
                   comment={_link.comment}
                   createDate={_link.dateCreated}
                   tags={_link.tags}
+                  linkList={linkList}
+                  setLinkList={setLinkList}
+                  id={_link.id}
+                  index={index}
+                  activeLink={activeLink}
+                  setActiveLink={setActiveLink}
+                  history={history}
                   setSearch={setSearch}
-                  updateClickCount={updateClickCount}
                 />
               </TableRow>
             );
