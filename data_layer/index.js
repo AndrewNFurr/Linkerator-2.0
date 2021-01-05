@@ -178,8 +178,8 @@ async function getLinksByTagName(tagName) {
 async function updateLink(linkId, fields = {}) {
   console.log("Beginning updateLink")
 
-  const { tags } = fields; //might be undefined
-  delete fields.tags;
+  // const { tags } = fields; //might be undefined
+  // delete fields.tags;
 
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1 }`
@@ -200,6 +200,7 @@ async function updateLink(linkId, fields = {}) {
       `, [...Object.values(fields), linkId]);
     }
 
+
     console.log("Made it through the setString")
 
     if (tags === undefined) {
@@ -211,13 +212,14 @@ async function updateLink(linkId, fields = {}) {
     const tagListIdString = tagList.map(
       tag => `${ tag.id }`
     ).join(', ');
+
     console.log(tagListIdString)
     await client.query(`
       DELETE FROM link_tags
       WHERE tag_id
       NOT IN (${tagListIdString})
-      AND link_id=$1;
-      `, [linkId]);
+      AND link_id=${lastIndex};
+      `, [...Object.values(fields), linkId]);
     
     await addTagsToLink(linkId, tagList);
 
