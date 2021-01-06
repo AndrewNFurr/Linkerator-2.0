@@ -178,14 +178,15 @@ async function getLinksByTagName(tagName) {
 async function updateLink(linkId, fields = {}) {
   console.log("Beginning updateLink")
 
-  // const { tags } = fields; //might be undefined
-  // delete fields.tags;
+  const { tags } = fields; //might be undefined
+  delete fields.tags;
 
   const setString = Object.keys(fields).map(
     (key, index) => `"${ key }"=$${ index + 1 }`
   ).join(', ');
   
   const lastIndex = Object.keys(fields).length + 1;
+  console.log("this is this", lastIndex, Object.keys(fields), tags )
 
   console.log("The setString is:", setString);
 
@@ -211,15 +212,15 @@ async function updateLink(linkId, fields = {}) {
     console.log("The taglist is", tagList);
     const tagListIdString = tagList.map(
       tag => `${ tag.id }`
-    ).join(', ');
+    ).join('');
 
-    console.log(tagListIdString)
-    await client.query(`
-      DELETE FROM link_tags
-      WHERE tag_id
-      NOT IN (${tagListIdString})
-      AND link_id=${lastIndex};
-      `, [...Object.values(fields), linkId]);
+    // console.log(tagListIdString)
+    // await client.query(`
+    //   DELETE FROM link_tags
+    //   WHERE tag_id
+    //   NOT IN (${tagListIdString})
+    //   AND link_id=$${lastIndex};
+    //   `, [linkId]);
     
     await addTagsToLink(linkId, tagList);
 

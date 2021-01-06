@@ -27,7 +27,7 @@ const App = () => {
   const history = useHistory();
 
   useEffect(async () => {
-    fetchAPI('http://localhost:3001/api/links')
+    fetchAPI('/api/links')
       .then((resp) => {
         console.log("The linklist is", resp)
         let sortedList = resp.sort((a, b) => (a.clickcount > b.clickcount)? -1: 1);
@@ -37,7 +37,7 @@ const App = () => {
   }, []);
   
   useEffect(async () => {
-  fetchAPI('http://localhost:3001/api/tags')
+  fetchAPI('/api/tags')
     .then((data) => {
       console.log(data)
       setTagList(data)

@@ -22,7 +22,7 @@ async function fetchAPI(url, method="GET", sendData=null) {
   }
 
   export const increaseCountClicker = async (_id, currentCount) => {
-    const response = await axios.patch(`http://localhost:3001/api/links/${_id}`, {
+    const response = await axios.patch(`/api/links/${_id}`, {
       clickCount: currentCount + 1,
     });
   

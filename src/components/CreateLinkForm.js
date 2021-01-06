@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import fetchAPI  from "../api";
 import Button from '@material-ui/core/Button';
 
-const BASE_URL= "http://localhost:3001/api";
+const BASE_URL= "/api";
 
 const CreateLinkForm = (props) => {  
 
@@ -44,7 +44,7 @@ const CreateLinkForm = (props) => {
       link: link,
       clickcount: activeLink.clickcount,
       comment: comment,
-      tags: tags.split(',')
+      tags: tags.split(',') 
     }
 
     console.log("The new link data is:" , updateData)
@@ -86,7 +86,7 @@ const CreateLinkForm = (props) => {
   return (
     <div>
     <form className="newLinkForm">
-      {activeLink.id? (<h3 className="linkComponent">Update Link Info</h3>) : (<h3 className="linkComponent">Create a Link</h3>)}
+      {activeLink.id? (<h3 className="linkComponent">Update Link Info (Must attempt to update all fields)</h3>) : (<h3 className="linkComponent">Create a Link</h3>)}
       <label className="urlName">URL</label>
       <p className="urlPrefix">http://www.</p><input type="text" className="linkName" value={link} onChange={(event) => setLink(event.target.value)}></input><p className="urlSuffix">.com</p>
       <label className="commentLabel">Comment</label>
