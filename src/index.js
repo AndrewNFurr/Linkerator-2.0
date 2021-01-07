@@ -46,25 +46,6 @@ const App = () => {
 }, [])
 
 
-const updateClickCount = async (linkId, currentClickCount) => {
-  try {
-    const updatedClickCount = await increaseCountClicker(
-      linkId,
-      currentClickCount
-    );
-
-    if (updatedClickCount) {
-      setLinkList(links.map((link) => {
-          if (link.id === linkId) {
-            return { ...link, clickcount: link.clickcount + 1 };
-          } else {
-            return link;
-          }
-        })
-      );
-    }
-  } catch (error) {}
-};
 
   function filteredLinks() {
     if (searchOption === 'Tags') {
