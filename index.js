@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-
-
 const express = require("express");
 const path = require("path")
 const bodyParser = require('body-parser');
@@ -22,7 +20,7 @@ app.use(bodyParser.json());
 
 // make a route for each front end page
 // each time you add a front end route using react router, it needs to be added to this array
-["createLink", "searchBar", "/"].forEach((route) => {  app.get(`/${route}`, (req, res) => { res.sendFile(path.join(__dirname, "build", "index.html"));  });});
+["CreateLink", "/"].forEach((route) => {  app.get(`/${route}`, (req, res) => { res.sendFile(path.join(__dirname, "build", "index.html"));  });});
 
 const apiRouter = require('./api');
 app.use('/api', apiRouter);
